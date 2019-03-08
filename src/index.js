@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Amplify from 'aws-amplify';
+import 'semantic-ui-css/semantic.min.css';
 
+import './index.css';
 import awsmobile from './aws-exports';
 import App from './App';
 import * as serviceWorker from './serviceWorker';

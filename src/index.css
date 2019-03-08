@@ -1,0 +1,57 @@
+body {
+  background-color: rgb(234, 234, 234) !important;
+}
+
+/* navbar styles */
+
+.ui.menu .item img.logo {
+  margin-right: 1.5em;
+}
+
+.ui.fixed.menu {
+  background-image: linear-gradient(
+          135deg,
+          rgb(0, 109, 117) 0%,
+          rgb(0, 132, 141) 69%,
+          rgb(0, 160, 172) 89%
+  ) !important;
+}
+
+.ui.main.container,
+.main.segment {
+  margin-top: 7em;
+}
+
+.ui.formSegment {
+  margin-top: 1em !important;
+}
+
+.search-column {
+  margin-left: auto !important;
+}
+
+/* .ui.segment.form {
+  margin-top: 7em;
+} */
+
+.container-center {
+  margin-top: 36px;
+}
+
+.masthead .ui.menu .ui.button,
+.ui.menu a.ui.inverted.button {
+  margin-left: 0.5em;
+}
+
+.ui.menu .item > img:not(.ui) {
+  margin-right: 1.5em !important;
+}
+
+.ui.menu:not(.vertical) .item > .button {
+  margin-left: 0.5em;
+}
+
+.ui.divider {
+  border-top: 2px solid #00b5ad !important;
+  margin: 0 !important;
+}

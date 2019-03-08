@@ -1,0 +1,93 @@
+import React, { Component } from 'react';
+//  prettier-ignore
+import { Icon, Button, Modal, Form, Message, Dropdown } from 'semantic-ui-react';
+
+const optionsTags = [
+  { key: 'art', text: 'Art', value: 'art' },
+  { key: 'technology', text: 'Technology', value: 'technology' },
+  { key: 'electronics', text: 'Electronics', value: 'electronics' },
+  { key: 'sport', text: 'Sport', value: 'sport' },
+  { key: 'garment', text: 'Garment', value: 'garment' }
+];
+
+class NewMarketModal extends Component {
+  state = {
+    modal: this.props.showModal,
+    name: '',
+    tags: [],
+    error: ''
+  };
+
+  openModal = () => this.setState({ modal: true, error: '' });
+  closeModal = () => this.setState({ modal: false });
+
+  handleChange = (event, input) => {
+    this.setState({ [input.name]: input.value });
+  };
+
+  handleSubmit = async user => {
+    const { name, tags } = this.state;
+    // if (name.length > 3) {
+    //   const input = {
+    //     name,
+    //     owner: user.username,
+    //     tags
+    //   };
+    //   const result = await API.graphql(graphqlOperation(createMarket, { input }));
+    //   console.log('result:', result);
+    //   this.setState({ name: '', tags: [] });
+    //   this.closeModal();
+    // } else {
+    //   console.log('Add a Market Name..., Min 4 charaters...');
+    //   this.setState({
+    //     error: 'Add a Market Name..., Min 4 charaters...'
+    //   });
+    // }
+  };
+
+  render() {
+    const { modal, name, error } = this.state;
+
+    return (
+      <Modal centered={false} open={modal} onClose={this.closeModal}>
+        <Modal.Header>Create New MarketPlace</Modal.Header>
+        <Modal.Content>
+          <Form error>
+            <Form.Field>
+              <Form.Input
+                label='Name of your MarketPlace'
+                type='text'
+                placeholder="e.g. Tom's Toys"
+                value={name}
+                name='name'
+                onChange={this.handleChange}
+              />
+              {error && <Message error content={error} />}
+            </Form.Field>
+            <Form.Field>
+              <Dropdown
+                placeholder='Tags'
+                fluid
+                multiple
+                selection
+                options={optionsTags}
+                name='tags'
+                onChange={this.handleChange}
+              />
+            </Form.Field>
+          </Form>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={this.closeModal}>
+            <Icon name='remove' /> Cancel
+          </Button>
+          {/* <Button color='blue' onClick={() => this.handleSubmit(user)}>
+            <Icon name='checkmark' /> Submit
+          </Button> */}
+        </Modal.Actions>
+      </Modal>
+    );
+  }
+}
+
+export default NewMarketModal;
