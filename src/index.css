@@ -55,3 +55,19 @@ body {
   border-top: 2px solid #00b5ad !important;
   margin: 0 !important;
 }
+
+.search-clear-icon {
+  margin-top: 1px !important;
+}
+
+.ui.form .fields {
+  /* display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  margin: 0 -.5em 1em; */
+  justify-content: center !important;
+}

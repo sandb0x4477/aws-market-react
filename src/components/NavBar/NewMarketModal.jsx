@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Icon, Button, Modal, Form, Message, Dropdown } from 'semantic-ui-react';
 import { API, graphqlOperation } from 'aws-amplify';
 
-import { createMarket } from '../graphql/mutations';
+import { createMarket } from '../../graphql/mutations';
 
 const optionsTags = [
   { key: 'art', text: 'Art', value: 'art' },

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card, Icon, Label, Grid } from 'semantic-ui-react';
 
 const MarketListCard = ({ market }) => {
+  console.log('market:', market);
   return (
     <Card>
       <Card.Content>
@@ -17,7 +18,7 @@ const MarketListCard = ({ market }) => {
             <Grid.Column textAlign='right'>
               <Label color='teal'>
                 <Icon name='dolly flatbed' />
-                {market.products.length || '0'}
+                {market.products.items.length || '0'}
               </Label>
             </Grid.Column>
           </Grid.Row>

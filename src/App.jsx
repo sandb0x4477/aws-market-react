@@ -8,7 +8,7 @@ import './App.css';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import MarketPage from './pages/MarketPage';
-import NavBar from './components/NavBar';
+import NavBar from './components/NavBar/NavBar';
 
 export const UserContext = React.createContext();
 
@@ -69,7 +69,7 @@ class App extends Component {
                 <Route
                   path='/markets/:marketId'
                   component={({ match }) => (
-                    <MarketPage marketId={match.params.marketId} />
+                    <MarketPage marketId={match.params.marketId} user={user} />
                   )}
                 />
               </Container>

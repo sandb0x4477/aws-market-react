@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Container, Button, Icon } from 'semantic-ui-react';
+import { Menu, Container, Button, Icon, Dropdown } from 'semantic-ui-react';
 
 import NewMarketModal from './NewMarketModal';
 
 const NavBar = ({ user, handleSignOut }) => {
   const [modal, setModal] = useState(false);
+
+  const greetings = `Hello, ${user.username}`;
 
   const closeModal = () => {
     setModal(false);
@@ -27,24 +29,21 @@ const NavBar = ({ user, handleSignOut }) => {
             </Button>
           </Menu.Item>
 
-          <Menu.Item position='right'>Hello, {user.username}</Menu.Item>
-          <Menu.Item as={Link} to='/profile'>
-            <Icon name='cog' size='large' />
-          </Menu.Item>
-          <Menu.Item>
-            <Button icon color='teal' floated='right' onClick={handleSignOut}>
-              <Icon name='sign out' />
-              Sign Out
-            </Button>
-            {/* <Button content='Sign Out' floated='right' color='teal' /> */}
+          <Menu.Item position='right'>
+            <Dropdown pointing='top right' text={greetings}>
+              <Dropdown.Menu>
+                <Dropdown.Item as={Link} to='/profile' text='Profile' icon='cog' />
+                <Dropdown.Item text='Sign Out' icon='power' onClick={handleSignOut} />
+              </Dropdown.Menu>
+            </Dropdown>
           </Menu.Item>
         </Container>
+        {/* Modal create new Market */}
         <NewMarketModal
           showModal={modal}
           closeModal={closeModal}
           username={user.username}
         />
-        {/* <NewMarketModal showModal={modal} /> */}
       </Menu>
     </>
   );
