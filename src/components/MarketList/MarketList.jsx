@@ -56,7 +56,7 @@ const MarketList = ({ searchResult, onCloseIcon }) => {
         if (errors > 0) return <Error errors={errors} />;
         if (loading || !data.listMarkets) return <Loading inverted={true} />;
         const markets = searchResult.length > 0 ? searchResult : data.listMarkets.items;
-        console.log('markets:', markets);
+        // console.log('markets:', markets);
 
         return (
           <Container className='container-center'>

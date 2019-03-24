@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card, Icon, Label, Grid } from 'semantic-ui-react';
 
 const MarketListCard = ({ market }) => {
-  console.log('market:', market);
+  // console.log('market:', market);
   return (
     <Card>
       <Card.Content>

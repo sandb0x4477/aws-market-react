@@ -20,8 +20,6 @@ class NewProduct extends Component {
   state = { ...initialState };
 
   handleChange = (e, { name, value }) => {
-    // console.log('name:', name);
-    // console.log('value:', value);
     this.setState({ [name]: value });
   };
 
@@ -46,7 +44,8 @@ class NewProduct extends Component {
       const filename = `/${visibility}/${identityId}/${Date.now()}-${image.name}`;
 
       const uploadedFile = await Storage.put(filename, image.file, {
-        contentType: image.type
+        contentType: image.type,
+        level: 'public'
       });
       console.log('uploadedFile:', uploadedFile);
 
