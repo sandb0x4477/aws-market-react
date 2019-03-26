@@ -54,8 +54,23 @@ const MarketPage = props => {
   }, []);
 
   useEffect(() => {
+    const updateSubscription = API.graphql(graphqlOperation(onUpdateProduct)).subscribe({
+      next: productData => {
+        const updatedProduct = productData.value.data.onUpdateProduct;
+        console.log('updatedProduct:', updatedProduct);
+        console.log('market', market);
+
+
+        // const prevProducts = market.products.item.filter(
+        //   item => item.id !== createdProduct.id
+        // );
+        // const updatedProducts = [createdProduct, ...prevProducts];
+        // const updatedMarket = [createdProduct, ...market];
+        // setMarket(updatedMarket);
+      }
+    });
     return () => {
-      console.log('Unmount...');
+      updateSubscription.unsubscribe();
     };
   }, []);
 
@@ -72,28 +87,25 @@ const MarketPage = props => {
       setLoading(false);
       checkMarketOwner(result.data.getMarket);
       // checkMarketOwner();
-      productListener(result.data.getMarket);
+      // productListener(result.data.getMarket);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const productListener = data => {
-    console.log('MarketProducts:', data.products.items);
-    API.graphql(graphqlOperation(onCreateProduct)).subscribe({
-      next: productData => {
-        const createdProduct = productData.value.data.onCreateProduct;
-        // console.log('createdProduct:', createdProduct);
+  const productListener = API.graphql(graphqlOperation(onUpdateProduct)).subscribe({
+    next: productData => {
+      const updatedProduct = productData.value.data.onUpdateProduct;
+      console.log('updatedProduct:', updatedProduct);
 
-        // const prevProducts = market.products.item.filter(
-        //   item => item.id !== createdProduct.id
-        // );
-        // const updatedProducts = [createdProduct, ...prevProducts];
-        // const updatedMarket = [createdProduct, ...market];
-        // setMarket(updatedMarket);
-      }
-    });
-  };
+      // const prevProducts = market.products.item.filter(
+      //   item => item.id !== createdProduct.id
+      // );
+      // const updatedProducts = [createdProduct, ...prevProducts];
+      // const updatedMarket = [createdProduct, ...market];
+      // setMarket(updatedMarket);
+    }
+  });
 
   const checkMarketOwner = market => {
     const { user } = props;

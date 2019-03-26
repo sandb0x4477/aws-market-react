@@ -4,8 +4,9 @@ import { S3Image } from 'aws-amplify-react';
 import { API, graphqlOperation } from 'aws-amplify';
 
 import { deleteProduct } from '../../graphql/mutations';
-import { convertFromCents } from '../../shared';
+// import { convertFromCents } from '../../shared';
 import EditProduct from './EditProduct';
+import PayButton from './PayButton';
 
 const Product = ({ product, user }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -14,7 +15,7 @@ const Product = ({ product, user }) => {
   // console.log('product:', product);
 
   const showConfirmDelete = () => {
-    console.log('product:', product.id);
+    // console.log('product:', product.id);
     setConfirmDelete(true);
   };
 
@@ -23,9 +24,9 @@ const Product = ({ product, user }) => {
     const input = {
       id
     };
-    console.log('input:', input);
+    // console.log('input:', input);
     try {
-      const result = await API.graphql(graphqlOperation(deleteProduct, { input }));
+      await API.graphql(graphqlOperation(deleteProduct, { input }));
       // console.log('result:', result);
       setConfirmDelete(false);
     } catch (error) {
@@ -56,19 +57,20 @@ const Product = ({ product, user }) => {
         <Card.Content extra>
           {product.shipped ? (
             <Label>
-              <Icon name='mail' /> Emailed
+              <Icon name='truck' /> Shipped
             </Label>
           ) : (
             <Label>
-              <Icon name='truck' /> Shipped
+              <Icon name='mail' /> Emailed
             </Label>
           )}
-          <Button animated='vertical' color='teal' floated='right'>
+          {/* <Button animated='vertical' color='teal' floated='right'>
             <Button.Content visible>${convertFromCents(product.price)}</Button.Content>
             <Button.Content hidden>
               <Icon name='shop' /> Buy
             </Button.Content>
-          </Button>
+          </Button> */}
+          <PayButton product={product} user={user} />
         </Card.Content>
         {isOwner && (
           <Card.Content extra>

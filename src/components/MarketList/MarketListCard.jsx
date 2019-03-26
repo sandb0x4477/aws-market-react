@@ -16,7 +16,7 @@ const MarketListCard = ({ market }) => {
               </Card.Header>
             </Grid.Column>
             <Grid.Column textAlign='right'>
-              <Label color='teal'>
+              <Label color='teal' as={Link} to={`/markets/${market.id}`}>
                 <Icon name='dolly flatbed' />
                 {market.products.items.length || '0'}
               </Label>

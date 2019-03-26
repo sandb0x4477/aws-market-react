@@ -7,8 +7,9 @@ import { Container } from 'semantic-ui-react';
 import './App.css';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
-import MarketPage from './pages/MarketPage';
+// import MarketPage from './pages/MarketPage';
 import NavBar from './components/NavBar/NavBar';
+import MarketPageTest from './pages/MarketPageTest';
 
 export const UserContext = React.createContext();
 
@@ -69,7 +70,7 @@ class App extends Component {
                 <Route
                   path='/markets/:marketId'
                   component={({ match }) => (
-                    <MarketPage marketId={match.params.marketId} user={user} />
+                    <MarketPageTest marketId={match.params.marketId} user={user} />
                   )}
                 />
               </Container>
