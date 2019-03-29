@@ -8,7 +8,7 @@ import { deleteProduct } from '../../graphql/mutations';
 import EditProduct from './EditProduct';
 import PayButton from './PayButton';
 
-const Product = ({ product, user }) => {
+const Product = ({ product, user, userAttributes }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showEditModale, setShowEditModale] = useState(false);
   // const [product, setProduct] = useState(false);
@@ -70,7 +70,7 @@ const Product = ({ product, user }) => {
               <Icon name='shop' /> Buy
             </Button.Content>
           </Button> */}
-          <PayButton product={product} user={user} />
+          <PayButton product={product} user={user} userAttributes={userAttributes} />
         </Card.Content>
         {isOwner && (
           <Card.Content extra>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Auth, Hub } from 'aws-amplify';
+import { API, graphqlOperation, Auth, Hub } from 'aws-amplify';
 import { Authenticator, AmplifyTheme } from 'aws-amplify-react';
 import { Container } from 'semantic-ui-react';
 
@@ -11,11 +11,15 @@ import ProfilePage from './pages/ProfilePage';
 import NavBar from './components/NavBar/NavBar';
 import MarketPageTest from './pages/MarketPageTest';
 
+import { getUser } from './graphql/queries';
+import { registerUser } from './graphql/mutations';
+
 export const UserContext = React.createContext();
 
 class App extends Component {
   state = {
-    user: null
+    user: null,
+    userAttributes: null
   };
 
   componentDidMount() {
@@ -28,6 +32,7 @@ class App extends Component {
       case 'signIn':
         console.log('signed in');
         this.getUserData();
+        this.registerNewUser(capsule.payload.data);
         break;
       case 'signUp':
         console.log('signed up');
@@ -44,7 +49,40 @@ class App extends Component {
 
   getUserData = async () => {
     const user = await Auth.currentAuthenticatedUser();
-    user ? this.setState({ user }) : this.setState({ user: null });
+    console.log('user:', user);
+    user
+      ? this.setState({ user }, () => this.getUserAttributes(this.state.user))
+      : this.setState({ user: null });
+  };
+
+  getUserAttributes = async authUserData => {
+    const attributesArr = await Auth.userAttributes(authUserData);
+    const attributesObj = Auth.attributesToObject(attributesArr);
+    this.setState({ userAttributes: attributesObj });
+  };
+
+  registerNewUser = async signInData => {
+    const getUserInput = {
+      id: signInData.signInUserSession.idToken.payload.sub
+    };
+    const { data } = await API.graphql(graphqlOperation(getUser, getUserInput));
+    // if we can't get a user (meaning the user hasn't been registered before), then we execute registerUser
+    if (!data.getUser) {
+      try {
+        const registerUserInput = {
+          ...getUserInput,
+          username: signInData.username,
+          email: signInData.signInUserSession.idToken.payload.email,
+          registered: true
+        };
+        const newUser = await API.graphql(
+          graphqlOperation(registerUser, { input: registerUserInput })
+        );
+        console.log({ newUser });
+      } catch (err) {
+        console.error('Error registering new user', err);
+      }
+    }
   };
 
   handleSignOut = () => {
@@ -54,23 +92,32 @@ class App extends Component {
   };
 
   render() {
-    const { user } = this.state;
+    const { user, userAttributes } = this.state;
 
     return !user ? (
       <Authenticator theme={theme} />
     ) : (
-      <UserContext.Provider value={{ user }}>
+      <UserContext.Provider value={{ user, userAttributes }}>
         <Router>
           <>
             <div className='ui container'>
               <NavBar user={user} handleSignOut={this.handleSignOut} />
               <Container className='main'>
                 <Route exact path='/' component={HomePage} />
-                <Route path='/profile' component={ProfilePage} />
+                <Route
+                  path='/profile'
+                  component={ProfilePage}
+                  user={user}
+                  userAttributes={userAttributes}
+                />
                 <Route
                   path='/markets/:marketId'
                   component={({ match }) => (
-                    <MarketPageTest marketId={match.params.marketId} user={user} />
+                    <MarketPageTest
+                      marketId={match.params.marketId}
+                      userAttributes={userAttributes}
+                      user={user}
+                    />
                   )}
                 />
               </Container>

@@ -10,7 +10,8 @@ const stripeConfig = {
   publishKey: process.env.REACT_APP_STRIPE_KEY
 };
 
-const PayButton = ({ product, user }) => {
+const PayButton = ({ product, user, userAttributes }) => {
+  console.log('userAttributes:', userAttributes);
   console.log('product:', product);
   console.log('user:', user);
 
@@ -41,7 +42,7 @@ const PayButton = ({ product, user }) => {
         amount={product.price}
         currency={stripeConfig.currency}
         stripeKey={stripeConfig.publishKey}
-        email={user.attributes.email}
+        email={userAttributes.email}
         shippingAddress={product.shipped}
         billingAddress={product.shipped}
         locale='auto'

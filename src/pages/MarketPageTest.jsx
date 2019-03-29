@@ -108,9 +108,10 @@ export default class MarketPageTest extends Component {
     };
     try {
       const result = await API.graphql(graphqlOperation(getMarket, input));
-      this.setState({ market: result.data.getMarket });
-      this.setState({ loading: false });
-      this.checkMarketOwner(result.data.getMarket);
+      this.setState({ market: result.data.getMarket, isLoading: false }, () => {
+        this.checkMarketOwner();
+        this.checkEmailVerified();
+      });
     } catch (error) {
       console.log(error);
     }
@@ -124,11 +125,18 @@ export default class MarketPageTest extends Component {
     }
   };
 
+  checkEmailVerified = () => {
+    const { userAttributes } = this.props;
+    if (userAttributes) {
+      this.setState({ isEmailVerified: userAttributes.email_verified });
+    }
+  };
+
   handleTabClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
     const { loading, market, activeItem, isMarketOwner } = this.state;
-    const { user, marketId } = this.props;
+    const { user, marketId, userAttributes } = this.props;
 
     if (loading || !market) return <Loading inverted={true} />;
 
@@ -164,7 +172,12 @@ export default class MarketPageTest extends Component {
           <Segment attached='bottom'>
             <Card.Group doubling={true} centered={true}>
               {market.products.items.map(product => (
-                <Product product={product} key={product.id} user={user} />
+                <Product
+                  product={product}
+                  key={product.id}
+                  user={user}
+                  userAttributes={userAttributes}
+                />
               ))}
             </Card.Group>
           </Segment>
