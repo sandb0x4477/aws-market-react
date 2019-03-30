@@ -49,7 +49,7 @@ class App extends Component {
 
   getUserData = async () => {
     const user = await Auth.currentAuthenticatedUser();
-    console.log('user:', user);
+    // console.log('user:', user);
     user
       ? this.setState({ user }, () => this.getUserAttributes(this.state.user))
       : this.setState({ user: null });
@@ -68,6 +68,7 @@ class App extends Component {
     const { data } = await API.graphql(graphqlOperation(getUser, getUserInput));
     // if we can't get a user (meaning the user hasn't been registered before), then we execute registerUser
     if (!data.getUser) {
+      console.log('Registering new user....:', signInData);
       try {
         const registerUserInput = {
           ...getUserInput,

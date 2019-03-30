@@ -41,3 +41,7 @@ awsconfiguration.json
 
 scratch.txt
 .env
+
+!amplify/backend/function/orderlambda/src/app.js
+
+.idea

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Icon, Button } from 'semantic-ui-react';
 import StripeCheckout from 'react-stripe-checkout';
-import { API } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 
+import { getUser } from '../../graphql/queries';
 import { convertFromCents } from '../../shared';
 
 const stripeConfig = {
@@ -15,9 +16,20 @@ const PayButton = ({ product, user, userAttributes }) => {
   console.log('product:', product);
   console.log('user:', user);
 
-  const onToken = async token => {
-    console.log('token:', token);
+  const getOwnerEmail = async ownerId => {
     try {
+      const input = { id: ownerId };
+      const result = await API.graphql(graphqlOperation(getUser, input));
+      return result.data.getUser.email;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const onToken = async token => {
+    try {
+      const ownerEmail = await getOwnerEmail(product.owner);
+      // console.log('ownerEmail:', ownerEmail);
       const result = await API.post('orderlambda', '/charge', {
         body: {
           token,
@@ -25,6 +37,11 @@ const PayButton = ({ product, user, userAttributes }) => {
             currency: stripeConfig.currency,
             amount: product.price,
             description: product.description
+          },
+          email: {
+            customerEmail: userAttributes.email,
+            ownerEmail,
+            shipped: product.shipped
           }
         }
       });
