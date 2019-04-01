@@ -107,9 +107,9 @@ class App extends Component {
                 <Route exact path='/' component={HomePage} />
                 <Route
                   path='/profile'
-                  component={ProfilePage}
-                  user={user}
-                  userAttributes={userAttributes}
+                  component={() => (
+                    <ProfilePage user={user} userAttributes={userAttributes} />
+                  )}
                 />
                 <Route
                   path='/markets/:marketId'

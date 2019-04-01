@@ -4,6 +4,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import { API, graphqlOperation } from 'aws-amplify';
 
 import { getUser } from '../../graphql/queries';
+import { createOrder } from '../../graphql/mutations';
 import { convertFromCents } from '../../shared';
 
 const stripeConfig = {
@@ -12,9 +13,9 @@ const stripeConfig = {
 };
 
 const PayButton = ({ product, user, userAttributes }) => {
-  console.log('userAttributes:', userAttributes);
-  console.log('product:', product);
-  console.log('user:', user);
+  // console.log('userAttributes:', userAttributes);
+  // console.log('product:', product);
+  // console.log('user:', user);
 
   const getOwnerEmail = async ownerId => {
     try {
@@ -45,11 +46,32 @@ const PayButton = ({ product, user, userAttributes }) => {
           }
         }
       });
-      console.log('result:', result);
+      // console.log('result:', result);
+      if (result.charge.status === 'succeeded') {
+        let shippingAddress = null;
+        if (product.shipped) {
+          shippingAddress = createShippingAddress(result.charge.source);
+        }
+        const input = {
+          orderUserId: user.attributes.sub,
+          orderProductId: product.id,
+          shippingAddress
+        };
+        const order = await API.graphql(graphqlOperation(createOrder, { input }));
+        console.log('Create Order:', order);
+      }
     } catch (error) {
       console.error('error:', error);
     }
   };
+
+  const createShippingAddress = source => ({
+    city: source.address_city,
+    country: source.address_country,
+    address_line1: source.address_line1,
+    address_state: source.address_state,
+    address_zip: source.address_zip
+  });
 
   return (
     <>

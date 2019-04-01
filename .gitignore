@@ -43,5 +43,6 @@ scratch.txt
 .env
 
 !amplify/backend/function/orderlambda/src/app.js
+!amplify/backend/api/awsmarket/schema.graphql
 
 .idea
