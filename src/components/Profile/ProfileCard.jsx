@@ -4,7 +4,7 @@ import { Icon, Button, Segment, Grid, Confirm } from 'semantic-ui-react';
 import Loading from '../Loading';
 
 const ProfileCard = ({ user, userAttributes }) => {
-  console.log('user', user);
+  // console.log('user', user);
   const [confirm, setConfrim] = useState(false);
 
   if (!user || !userAttributes) return <Loading />;
@@ -50,18 +50,18 @@ const ProfileCard = ({ user, userAttributes }) => {
               <Grid.Column width={11}>
                 <span>Email: {userAttributes.email}</span>
               </Grid.Column>
-              <Grid.Column width={4}>
-                {userAttributes.email_verified ? (
-                  <Button floated={'right'} color='teal' size='tiny' content='Change' />
-                ) : (
-                  <Button
-                    floated={'right'}
-                    color='teal'
-                    size='tiny'
-                    content='Verify email'
-                  />
-                )}
-              </Grid.Column>
+              {/*<Grid.Column width={4}>*/}
+              {/*  {userAttributes.email_verified ? (*/}
+              {/*    <Button floated={'right'} color='teal' size='tiny' content='Change' />*/}
+              {/*  ) : (*/}
+              {/*    <Button*/}
+              {/*      floated={'right'}*/}
+              {/*      color='teal'*/}
+              {/*      size='tiny'*/}
+              {/*      content='Verify email'*/}
+              {/*    />*/}
+              {/*  )}*/}
+              {/*</Grid.Column>*/}
             </Grid>
           </Segment>
           <Segment attached>

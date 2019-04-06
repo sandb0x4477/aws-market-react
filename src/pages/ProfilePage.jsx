@@ -1,6 +1,6 @@
 import React from 'react';
-import { Auth, API, graphqlOperation } from 'aws-amplify';
-import { Button, Menu, Icon, Segment, Card } from 'semantic-ui-react';
+import { API, graphqlOperation } from 'aws-amplify';
+import { Menu, Icon, Segment, Card } from 'semantic-ui-react';
 import OrderCard from '../components/Profile/OrderCard';
 import ProfileCard from '../components/Profile/ProfileCard';
 
@@ -63,14 +63,7 @@ class ProfilePage extends React.Component {
   handleTabClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-    const {
-      activeItem,
-      orders,
-      email,
-      emailDialog,
-      verificationCode,
-      verificationForm
-    } = this.state;
+    const { activeItem, orders } = this.state;
     const { user, userAttributes } = this.props;
     return (
       <>

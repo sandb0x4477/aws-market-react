@@ -2,6 +2,7 @@
   "name": "aws-market",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "https://alittlebitofcode.site/awsmarket",
   "dependencies": {
     "aws-amplify": "^1.1.22",
     "aws-amplify-react": "^2.3.2",
