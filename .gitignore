@@ -46,3 +46,4 @@ scratch.txt
 !amplify/backend/api/awsmarket/schema.graphql
 
 .idea
+MarketPage.temp

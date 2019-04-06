@@ -9,7 +9,7 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 // import MarketPage from './pages/MarketPage';
 import NavBar from './components/NavBar/NavBar';
-import MarketPageTest from './pages/MarketPageTest';
+import MarketPage from './pages/MarketPage';
 
 import { getUser } from './graphql/queries';
 import { registerUser } from './graphql/mutations';
@@ -114,7 +114,7 @@ class App extends Component {
                 <Route
                   path='/markets/:marketId'
                   component={({ match }) => (
-                    <MarketPageTest
+                    <MarketPage
                       marketId={match.params.marketId}
                       userAttributes={userAttributes}
                       user={user}

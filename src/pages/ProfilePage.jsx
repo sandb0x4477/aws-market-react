@@ -2,6 +2,7 @@ import React from 'react';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { Button, Menu, Icon, Segment, Card } from 'semantic-ui-react';
 import OrderCard from '../components/Profile/OrderCard';
+import ProfileCard from '../components/Profile/ProfileCard';
 
 //#region getUser
 const getUser = `query GetUser($id: ID!) {
@@ -34,6 +35,7 @@ const getUser = `query GetUser($id: ID!) {
   }
 }
 `;
+
 //#endregion
 
 class ProfilePage extends React.Component {
@@ -43,7 +45,7 @@ class ProfilePage extends React.Component {
     verificationCode: '',
     verificationForm: false,
     orders: [],
-    activeItem: 'orders'
+    activeItem: 'profile'
   };
 
   componentDidMount() {
@@ -61,7 +63,15 @@ class ProfilePage extends React.Component {
   handleTabClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-    const { activeItem, orders } = this.state;
+    const {
+      activeItem,
+      orders,
+      email,
+      emailDialog,
+      verificationCode,
+      verificationForm
+    } = this.state;
+    const { user, userAttributes } = this.props;
     return (
       <>
         <Menu tabular attached='top' fluid>
@@ -82,18 +92,7 @@ class ProfilePage extends React.Component {
         </Menu>
 
         {activeItem === 'profile' && (
-          <Segment attached='bottom'>
-            <Card.Group doubling={true} centered={true}>
-              {/* {market.products.items.map(product => (
-                <Product
-
-                  key={product.id}
-                  user={user}
-                  userAttributes={userAttributes}
-                />
-              ))} */}
-            </Card.Group>
-          </Segment>
+          <ProfileCard user={user} userAttributes={userAttributes} />
         )}
 
         {activeItem === 'orders' && (
