@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { API, graphqlOperation, Auth, Hub } from 'aws-amplify';
 import { Authenticator, AmplifyTheme } from 'aws-amplify-react';
-import { Container } from 'semantic-ui-react';
+import { Container, Header, Segment } from 'semantic-ui-react';
 
 import './App.css';
 import HomePage from './pages/HomePage';
@@ -96,7 +96,14 @@ class App extends Component {
     const { user, userAttributes } = this.state;
 
     return !user ? (
-      <Authenticator theme={theme} />
+      <>
+        <Segment>
+          <Header as='h3' color='teal' textAlign='center'>
+            <Header.Content>For testing: user5, pa$$w0rD</Header.Content>
+          </Header>
+        </Segment>
+        <Authenticator theme={theme} />
+      </>
     ) : (
       <UserContext.Provider value={{ user, userAttributes }}>
         <Router>
